@@ -1,0 +1,270 @@
+<!--
+  星闪 - 首页
+  输入卡片 + 心情卡片 + 时间线列表 / 日历视图 + 搜索筛选
+-->
+<view class="page-container">
+  <!-- 视图切换栏 -->
+  <view class="view-switch-bar">
+    <view class="switch-tabs">
+      <view
+        class="switch-tab {{currentView === 'timeline' ? 'active' : ''}}"
+        bindtap="switchToTimeline"
+      >
+        <text>时间线</text>
+      </view>
+      <view
+        class="switch-tab {{currentView === 'calendar' ? 'active' : ''}}"
+        bindtap="switchToCalendar"
+      >
+        <text>日历</text>
+      </view>
+    </view>
+    <!-- 搜索筛选按钮 -->
+    <view class="filter-btn" bindtap="toggleFilter">
+      <text class="filter-icon">{{showFilter ? '✕' : '🔍'}}</text>
+    </view>
+  </view>
+
+  <!-- 搜索筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilter}}">
+    <view class="filter-row">
+      <text class="filter-label">开始日期</text>
+      <picker mode="date" value="{{filterStartDate}}" bindchange="onStartDateChange">
+        <view class="filter-value {{filterStartDate ? '' : 'placeholder'}}">
+          {{filterStartDate || '请选择'}}
+        </view>
+      </picker>
+    </view>
+    <view class="filter-row">
+      <text class="filter-label">结束日期</text>
+      <picker mode="date" value="{{filterEndDate}}" bindchange="onEndDateChange">
+        <view class="filter-value {{filterEndDate ? '' : 'placeholder'}}">
+          {{filterEndDate || '请选择'}}
+        </view>
+      </picker>
+    </view>
+    <view class="filter-row">
+      <text class="filter-label">心情筛选</text>
+      <scroll-view class="mood-filter-scroll" scroll-x>
+        <view
+          class="mood-filter-chip {{filterMood === '' ? 'active' : ''}}"
+          bindtap="onMoodFilter"
+          data-mood=""
+        >
+          <text>全部</text>
+        </view>
+        <view
+          wx:for="{{presetMoods}}"
+          wx:key="key"
+          class="mood-filter-chip {{filterMood === item.key ? 'active' : ''}}"
+          bindtap="onMoodFilter"
+          data-mood="{{item.key}}"
+        >
+          <text>{{item.emoji}} {{item.key}}</text>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="filter-actions" wx:if="{{hasActiveFilter}}">
+      <button class="btn-outline" size="mini" bindtap="clearFilter">清除筛选</button>
+    </view>
+  </view>
+
+  <!-- 时间线列表视图 -->
+  <view class="timeline-view" wx:if="{{currentView === 'timeline'}}">
+
+    <!-- ===== 输入卡片 ===== -->
+    <view class="input-card card">
+      <view class="section-title">💬 记录此刻</view>
+      <textarea
+        class="content-input"
+        placeholder="写点什么..."
+        value="{{inputContent}}"
+        bindinput="onInputContent"
+        maxlength="2000"
+        placeholder-style="color: #C4B5A0;"
+        auto-height
+      />
+
+      <!-- 媒体混合预览网格 -->
+      <view class="media-grid" wx:if="{{mediaList.length > 0}}">
+        <block wx:for="{{mediaList}}" wx:key="id">
+          <!-- 图片预览 -->
+          <view class="media-item" wx:if="{{item.type === 'image'}}">
+            <image src="{{item.path}}" mode="aspectFill" class="media-thumb" />
+            <view class="media-remove" bindtap="removeMedia" data-index="{{index}}">✕</view>
+          </view>
+          <!-- 视频预览 -->
+          <view class="media-item video-item" wx:if="{{item.type === 'video'}}">
+            <image src="{{item.thumbPath}}" mode="aspectFill" class="media-thumb" wx:if="{{item.thumbPath}}" />
+            <view class="video-placeholder" wx:else>
+              <text class="video-icon">▶</text>
+            </view>
+            <view class="video-overlay">▶</view>
+            <view class="media-remove" bindtap="removeMedia" data-index="{{index}}">✕</view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 唯一的上传按钮 -->
+      <view class="media-upload-btn" bindtap="addMedia">
+        <text>📷 添加图片/视频</text>
+      </view>
+
+      <!-- 底部：字数 + 发布按钮 -->
+      <view class="input-card-footer">
+        <text class="char-count">{{inputContent.length}}/2000</text>
+        <button class="btn-primary publish-btn" bindtap="publishRecord" disabled="{{!canPublish}}">💫 发布</button>
+      </view>
+    </view>
+
+    <!-- ===== 心情卡片 ===== -->
+    <view class="mood-card card">
+      <view class="section-title">😊 今天的心情</view>
+      <view class="mood-grid">
+        <view
+          wx:for="{{presetMoods}}"
+          wx:key="key"
+          class="mood-item {{selectedMood === item.key ? 'active' : ''}}"
+          bindtap="selectMood"
+          data-mood="{{item.key}}"
+        >
+          <text class="mood-emoji">{{item.emoji}}</text>
+          <text class="mood-text">{{item.key}}</text>
+        </view>
+      </view>
+      <view class="custom-mood">
+        <text class="custom-mood-label">或自定义：</text>
+        <input
+          class="custom-mood-input"
+          placeholder="输入你的心情..."
+          value="{{customMood}}"
+          bindinput="onCustomMoodInput"
+          maxlength="10"
+          placeholder-style="color: #C4B5A0;"
+        />
+      </view>
+    </view>
+
+    <!-- ===== 历史记录列表 ===== -->
+    <block wx:if="{{filteredRecords.length > 0}}">
+      <view
+        wx:for="{{filteredRecords}}"
+        wx:key="id"
+        class="record-card card"
+        bindtap="goToDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="card-time">
+          <text class="time-text">{{item.formattedTime}}</text>
+        </view>
+        <view class="card-content" wx:if="{{item.content}}">
+          <text class="content-text">{{item.content}}</text>
+        </view>
+        <view class="card-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image
+            wx:for="{{item.images}}"
+            wx:for-item="img"
+            wx:key="index"
+            src="{{img}}"
+            mode="aspectFill"
+            class="card-image"
+          />
+        </view>
+        <view class="card-video-tag" wx:if="{{item.videos && item.videos.length > 0}}">
+          <text>🎬 {{item.videos.length}}个视频</text>
+        </view>
+        <view class="card-footer">
+          <view class="card-mood" wx:if="{{item.mood}}">
+            <text class="tag">{{item.mood}}</text>
+          </view>
+          <view class="card-location" wx:if="{{item.location && item.location.name}}">
+            <text class="location-text">📍 {{item.location.name}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 时间线空状态 -->
+    <view class="empty-state" wx:if="{{filteredRecords.length === 0}}">
+      <text class="empty-icon">{{hasActiveFilter ? '🔍' : '✨'}}</text>
+      <text class="empty-text">{{hasActiveFilter ? '没有找到匹配的记录' : '还没有记录，在上面写第一条吧'}}</text>
+    </view>
+  </view>
+
+  <!-- 日历视图 -->
+  <view class="calendar-view" wx:if="{{currentView === 'calendar'}}">
+    <!-- 月份切换 -->
+    <view class="calendar-header">
+      <view class="month-arrow" bindtap="prevMonth">◀</view>
+      <view class="month-title">{{calendarYear}}年 {{calendarMonth + 1}}月</view>
+      <view class="month-arrow" bindtap="nextMonth">▶</view>
+    </view>
+
+    <!-- 星期标题 -->
+    <view class="weekday-row">
+      <text wx:for="{{['日','一','二','三','四','五','六']}}" wx:key="index" class="weekday-item">{{item}}</text>
+    </view>
+
+    <!-- 日期网格 -->
+    <view class="calendar-grid">
+      <view
+        wx:for="{{calendarCells}}"
+        wx:key="index"
+        class="calendar-cell {{item.month === 'current' ? '' : 'other-month'}}"
+        bindtap="onDayTap"
+        data-date="{{item.fullDate}}"
+      >
+        <view class="day-number {{item.isToday ? 'today' : ''}} {{item.hasRecord ? 'has-record' : ''}} {{selectedDate === item.fullDate ? 'selected' : ''}}">
+          {{item.day}}
+        </view>
+        <view wx:if="{{item.hasRecord}}" class="record-dot">●</view>
+      </view>
+    </view>
+
+    <!-- 当日记录列表 -->
+    <view class="day-records" wx:if="{{selectedDate}}">
+      <view class="day-records-title">
+        {{selectedDate}} {{dayRecords.length > 0 ? '(' + dayRecords.length + '条)' : ''}}
+      </view>
+      <block wx:if="{{dayRecords.length > 0}}">
+        <view
+          wx:for="{{dayRecords}}"
+          wx:key="id"
+          class="record-card card"
+          bindtap="goToDetail"
+          data-id="{{item.id}}"
+        >
+          <view class="card-time">
+            <text class="time-text">{{item.formattedTime}}</text>
+          </view>
+          <view class="card-content" wx:if="{{item.content}}">
+            <text class="content-text">{{item.content}}</text>
+          </view>
+          <view class="card-images" wx:if="{{item.images && item.images.length > 0}}">
+            <image
+              wx:for="{{item.images}}"
+              wx:for-item="img"
+              wx:key="index"
+              src="{{img}}"
+              mode="aspectFill"
+              class="card-image"
+            />
+          </view>
+          <view class="card-footer">
+            <view class="card-mood" wx:if="{{item.mood}}">
+              <text class="tag">{{item.mood}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="day-empty" wx:if="{{dayRecords.length === 0}}">
+        <text class="time-text">这天没有记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 悬浮加号按钮（仅下滑时显示） -->
+  <view class="fab" wx:if="{{showFab}}" bindtap="scrollToTop">
+    <text class="plus-icon">+</text>
+  </view>
+</view>

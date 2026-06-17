@@ -1,0 +1,104 @@
+/* ========================================
+   星闪 - 记录详情页样式
+   ======================================== */
+
+.detail-header {
+  display: flex;
+  align-items: center;
+}
+
+.time-main {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  letter-spacing: 1rpx;
+}
+
+/* 文字内容 */
+.detail-content {
+  margin-top: 10rpx;
+}
+
+.content-text {
+  font-size: 34rpx;
+  line-height: 1.8;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* 图片展示 */
+.detail-images {
+  margin-top: 10rpx;
+}
+
+.detail-section-title {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 20rpx;
+}
+
+.images-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.gallery-image {
+  width: 210rpx;
+  height: 210rpx;
+  border-radius: 12rpx;
+  background-color: var(--color-bg);
+}
+
+/* 视频展示 */
+.detail-videos {
+  margin-top: 10rpx;
+}
+
+.video-display {
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.video-player {
+  width: 100%;
+  height: 400rpx;
+}
+
+/* 元信息 */
+.detail-meta {
+  margin-top: 10rpx;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+}
+
+.meta-label {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.meta-value {
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+
+/* 删除 */
+.detail-actions {
+  padding: 60rpx 30rpx;
+}
+
+.delete-btn {
+  width: 100%;
+  padding: 26rpx 0 !important;
+  font-size: 30rpx !important;
+  background-color: #FFFFFF !important;
+  color: var(--color-danger) !important;
+  border: 2rpx solid var(--color-danger) !important;
+}

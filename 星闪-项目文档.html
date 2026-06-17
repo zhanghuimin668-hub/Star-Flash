@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星闪 - 微信小程序项目文档</title>
+  <style>
+    /* ========================================
+       星闪文档 - 温暖黄色系主题
+       ======================================== */
+    :root {
+      --color-primary: #F5A623;
+      --color-primary-light: #FCE4B8;
+      --color-primary-dark: #D4891A;
+      --color-bg: #FFFAF0;
+      --color-text: #4A3728;
+      --color-text-secondary: #8B7355;
+      --color-white: #FFFFFF;
+      --color-divider: #F0E6D3;
+      --color-danger: #E0745C;
+      --color-code-bg: #FFF8EC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    /* 封面 */
+    .cover {
+      background: linear-gradient(135deg, #F5A623 0%, #F7C948 40%, #FCE4B8 100%);
+      color: #FFFFFF;
+      text-align: center;
+      padding: 80px 40px 60px;
+      page-break-after: always;
+    }
+    .cover .icon { font-size: 80px; margin-bottom: 20px; }
+    .cover h1 { font-size: 48px; font-weight: 700; letter-spacing: 8px; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .cover .subtitle { font-size: 20px; opacity: 0.95; margin-bottom: 8px; }
+    .cover .meta { font-size: 14px; opacity: 0.8; margin-top: 30px; }
+    .cover .divider-line { width: 60px; height: 3px; background: #FFF; margin: 20px auto; border-radius: 2px; }
+
+    /* 目录 */
+    .toc {
+      background: var(--color-white);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px 60px;
+      page-break-after: always;
+    }
+    .toc h2 { text-align: center; color: var(--color-primary-dark); font-size: 28px; margin-bottom: 30px; }
+    .toc-list { list-style: none; }
+    .toc-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-divider);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .toc-list .toc-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--color-primary);
+      color: #FFF;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+
+    /* 内容区 */
+    .content { max-width: 800px; margin: 0 auto; padding: 0 40px 60px; }
+
+    /* 章节标题 */
+    .chapter {
+      background: var(--color-white);
+      border-radius: 16px;
+      padding: 40px 50px;
+      margin-top: 30px;
+      box-shadow: 0 2px 16px rgba(245, 166, 35, 0.08);
+      page-break-inside: avoid;
+    }
+    .chapter h2 {
+      font-size: 26px;
+      color: var(--color-primary-dark);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--color-primary-light);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chapter h2 .ch-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      background: var(--color-primary);
+      color: #FFF;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .chapter h3 {
+      font-size: 19px;
+      color: var(--color-text);
+      margin: 24px 0 12px;
+    }
+    .chapter p { margin-bottom: 12px; color: var(--color-text-secondary); }
+    .chapter ul, .chapter ol { margin: 8px 0 16px 20px; color: var(--color-text-secondary); }
+    .chapter li { margin-bottom: 6px; }
+
+    /* 表格 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    thead { background: var(--color-primary-light); }
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-primary-dark);
+      font-size: 14px;
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--color-divider);
+      color: var(--color-text-secondary);
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* 色板 */
+    .color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .color-swatch {
+      flex: 1; min-width: 100px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .color-swatch .swatch-box {
+      height: 70px;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 12px;
+    }
+    .color-swatch .swatch-info {
+      background: #FFF;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+    .color-swatch .swatch-info .name { font-weight: 600; color: var(--color-text); }
+    .color-swatch .swatch-info .hex { color: var(--color-text-secondary); margin-top: 2px; }
+
+    /* 功能卡片 */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      background: var(--color-bg);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border-left: 3px solid var(--color-primary);
+    }
+    .feature-card .feat-icon { font-size: 36px; margin-bottom: 8px; }
+    .feature-card .feat-name { font-weight: 600; color: var(--color-text); font-size: 15px; margin-bottom: 4px; }
+    .feature-card .feat-desc { font-size: 13px; color: var(--color-text-secondary); }
+
+    /* 页面结构 */
+    .page-layout {
+      background: var(--color-bg);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 16px 0;
+      border: 1px dashed var(--color-primary-light);
+    }
+    .page-layout h4 { color: var(--color-primary-dark); font-size: 17px; margin-bottom: 12px; }
+    .page-layout .layout-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .page-layout .layout-zone {
+      flex: 1; min-width: 140px;
+      background: #FFF;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-divider);
+    }
+    .page-layout .layout-zone .zone-icon { font-size: 28px; margin-bottom: 6px; }
+
+    /* 代码块 */
+    code {
+      background: var(--color-code-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--color-primary-dark);
+      border: 1px solid var(--color-primary-light);
+    }
+    pre {
+      background: var(--color-code-bg);
+      border: 1px solid var(--color-primary-light);
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 12px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 提示框 */
+    .tip {
+      background: var(--color-primary-light);
+      border-left: 4px solid var(--color-primary);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .tip .tip-label { font-weight: 700; color: var(--color-primary-dark); }
+
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 40px;
+      color: var(--color-text-secondary);
+      font-size: 13px;
+    }
+
+    /* 打印样式 */
+    @media print {
+      body { background: #FFF; font-size: 13px; }
+      .cover { page-break-after: always; }
+      .toc { page-break-after: always; box-shadow: none; }
+      .chapter { box-shadow: none; page-break-inside: avoid; margin-top: 20px; }
+      .content { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== 封面 ==================== -->
+<div class="cover">
+  <div class="icon">✨</div>
+  <h1>星 闪</h1>
+  <div class="divider-line"></div>
+  <p class="subtitle">记录生活点滴 · 微信小程序</p>
+  <p class="meta">项目文档 &nbsp;|&nbsp; 版本 1.0 &nbsp;|&nbsp; 2026年6月17日</p>
+</div>
+
+<!-- ==================== 目录 ==================== -->
+<div class="toc">
+  <h2>📋 目 录</h2>
+  <ul class="toc-list">
+    <li><span class="toc-num">1</span> 项目概述</li>
+    <li><span class="toc-num">2</span> 功能清单</li>
+    <li><span class="toc-num">3</span> 页面结构</li>
+    <li><span class="toc-num">4</span> UI 设计规范</li>
+    <li><span class="toc-num">5</span> 数据说明</li>
+    <li><span class="toc-num">6</span> 技术说明</li>
+    <li><span class="toc-num">7</span> 文件目录</li>
+    <li><span class="toc-num">8</span> 快速开始指南</li>
+    <li><span class="toc-num">9</span> 使用指南</li>
+  </ul>
+</div>
+
+<!-- ==================== 正文 ==================== -->
+<div class="content">
+
+  <!-- ===== 第1章：项目概述 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">1</span> 项目概述</h2>
+
+    <h3>基本信息</h3>
+    <table>
+      <tr><td style="font-weight:600;width:120px;">项目名称</td><td>星闪</td></tr>
+      <tr><td style="font-weight:600;">项目类型</td><td>微信小程序</td></tr>
+      <tr><td style="font-weight:600;">核心定位</td><td>个人生活点滴记录工具</td></tr>
+      <tr><td style="font-weight:600;">目标用户</td><td>希望简单记录日常生活的个人用户</td></tr>
+      <tr><td style="font-weight:600;">设计风格</td><td>简洁、直观、温暖</td></tr>
+      <tr><td style="font-weight:600;">主色调</td><td>温暖黄色系</td></tr>
+      <tr><td style="font-weight:600;">数据存储</td><td>手机本地存储，无需联网</td></tr>
+    </table>
+
+    <h3>一句话介绍</h3>
+    <div class="tip">
+      <span class="tip-label">💡</span> 「星闪」是一款温暖简洁的微信小程序，帮助你用文字、图片和视频记录生活中的每一个闪亮瞬间，自动标记时间和地点，随时回顾美好时光。
+    </div>
+  </div>
+
+  <!-- ===== 第2章：功能清单 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">2</span> 功能清单</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feat-icon">➕</div>
+        <div class="feat-name">创建记录</div>
+        <div class="feat-desc">通过悬浮加号按钮快速创建</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📝</div>
+        <div class="feat-name">文字输入</div>
+        <div class="feat-desc">支持最多 2000 字</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🖼️</div>
+        <div class="feat-name">图片上传</div>
+        <div class="feat-desc">最多 9 张图片，自动压缩</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🎬</div>
+        <div class="feat-name">视频上传</div>
+        <div class="feat-desc">最多 3 个视频，每个最长 60 秒</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">⏱️</div>
+        <div class="feat-name">自动时间戳</div>
+        <div class="feat-desc">精确到分秒，自动生成</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">😊</div>
+        <div class="feat-name">心情标签</div>
+        <div class="feat-desc">5 种预设心情 + 自定义输入</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📍</div>
+        <div class="feat-name">地点定位</div>
+        <div class="feat-desc">自动获取当前位置信息</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📋</div>
+        <div class="feat-name">时间线列表</div>
+        <div class="feat-desc">朋友圈风格，按时间倒序展示</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📅</div>
+        <div class="feat-name">日历视图</div>
+        <div class="feat-desc">月历形式，标记有记录的日子</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🔍</div>
+        <div class="feat-name">搜索筛选</div>
+        <div class="feat-desc">按日期范围或心情标签筛选</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">👁️</div>
+        <div class="feat-name">记录详情</div>
+        <div class="feat-desc">点击查看完整内容</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🗑️</div>
+        <div class="feat-name">删除记录</div>
+        <div class="feat-desc">支持删除，带二次确认</div>
+      </div>
+    </div>
+
+    <h3>预设心情标签</h3>
+    <table>
+      <thead><tr><th>心情</th><th>表情</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>开心</td><td>😊</td><td>心情愉快、高兴</td></tr>
+        <tr><td>平静</td><td>😐</td><td>心态平和、淡定</td></tr>
+        <tr><td>难过</td><td>😢</td><td>有点伤心、低落</td></tr>
+        <tr><td>兴奋</td><td>🎉</td><td>非常激动、惊喜</td></tr>
+        <tr><td>感恩</td><td>🙏</td><td>心怀感谢、珍惜</td></tr>
+        <tr><td>自定义</td><td>✏️</td><td>用户可输入任意心情文字（最多10字）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 第3章：页面结构 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">3</span> 页面结构</h2>
+
+    <p>小程序共有 <strong>3 个页面</strong>，通过导航相互跳转。</p>
+
+    <!-- 首页 -->
+    <div class="page-layout">
+      <h4>🏠 首页（时间线 + 日历）</h4>
+      <p style="margin-bottom:12px;">打开小程序看到的第一个页面，包含两种浏览模式。</p>
+      <div class="layout-row">
+        <div class="layout-zone">
+          <div class="zone-icon">🔀</div>
+          <strong>视图切换栏</strong><br>
+          顶部固定，包含「时间线/日历」切换按钮和搜索图标
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">📋</div>
+          <strong>时间线模式</strong><br>
+          记录卡片按时间倒序排列，每条显示文字、图片缩略图、心情和地点
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">📅</div>
+          <strong>日历模式</strong><br>
+          月历网格 + 当月记录标记，点击日期查看当天记录
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">➕</div>
+          <strong>悬浮加号按钮</strong><br>
+          右下角圆形按钮，点击跳转到创建记录页
+        </div>
+      </div>
+      <div class="tip" style="margin-top:12px;"><span class="tip-label">筛选面板：</span> 点击搜索图标展开，可按开始日期、结束日期、心情标签筛选记录。</div>
+    </div>
+
+    <!-- 创建页 -->
+    <div class="page-layout">
+      <h4>✍️ 创建记录页</h4>
+      <div class="layout-row">
+        <div class="layout-zone">
+          <div class="zone-icon">💬</div>
+          <strong>文字输入区</strong><br>
+          多行文本框，最多 2000 字，显示字数统计
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🖼️</div>
+          <strong>图片添加区</strong><br>
+          网格展示已选图片，点击加号添加（最多9张），可删除
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🎬</div>
+          <strong>视频添加区</strong><br>
+          网格展示已选视频，点击加号添加（最多3个），可删除
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">😊</div>
+          <strong>心情选择区</strong><br>
+          5 个预设心情可选，另有自定义输入框
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">📍</div>
+          <strong>位置选择区</strong><br>
+          点击调用微信地图选择位置（可选）
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">💫</div>
+          <strong>保存按钮</strong><br>
+          底部提交按钮，至少一项内容才可点击
+        </div>
+      </div>
+    </div>
+
+    <!-- 详情页 -->
+    <div class="page-layout">
+      <h4>📄 记录详情页</h4>
+      <div class="layout-row">
+        <div class="layout-zone">
+          <div class="zone-icon">⏱️</div>
+          <strong>时间戳</strong><br>
+          顶部显示完整时间（精确到秒）
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">📝</div>
+          <strong>文字内容</strong><br>
+          完整展示记录文字
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🖼️</div>
+          <strong>图片浏览</strong><br>
+          网格展示，点击可全屏预览
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🎬</div>
+          <strong>视频播放</strong><br>
+          内嵌视频播放器，支持播放控制
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🏷️</div>
+          <strong>心情+位置</strong><br>
+          显示心情标签和地理位置
+        </div>
+        <div class="layout-zone">
+          <div class="zone-icon">🗑️</div>
+          <strong>删除按钮</strong><br>
+          底部红色按钮，点击弹出确认框
+        </div>
+      </div>
+    </div>
+
+    <h3>页面导航关系</h3>
+    <pre>
+  📋 首页（时间线/日历）
+   ├── 点击加号按钮 ──→ ✍️ 创建记录页 ──→ 保存后自动返回
+   └── 点击记录卡片 ──→ 📄 记录详情页 ──→ 删除后自动返回</pre>
+  </div>
+
+  <!-- ===== 第4章：UI 设计规范 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">4</span> UI 设计规范</h2>
+
+    <h3>颜色系统</h3>
+    <div class="color-palette">
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#F5A623;color:#FFF;">主色</div>
+        <div class="swatch-info"><div class="name">主色 Primary</div><div class="hex">#F5A623</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#FCE4B8;color:#4A3728;">主色浅</div>
+        <div class="swatch-info"><div class="name">主色浅 Light</div><div class="hex">#FCE4B8</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#D4891A;color:#FFF;">主色深</div>
+        <div class="swatch-info"><div class="name">主色深 Dark</div><div class="hex">#D4891A</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#FFFAF0;color:#4A3728;">背景色</div>
+        <div class="swatch-info"><div class="name">页面背景 Bg</div><div class="hex">#FFFAF0</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#4A3728;color:#FFF;">文字主色</div>
+        <div class="swatch-info"><div class="name">文字颜色 Text</div><div class="hex">#4A3728</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-box" style="background:#8B7355;color:#FFF;">文字辅色</div>
+        <div class="swatch-info"><div class="name">辅助文字 Secondary</div><div class="hex">#8B7355</div></div>
+      </div>
+    </div>
+
+    <h3>使用规范</h3>
+    <table>
+      <thead><tr><th>颜色变量</th><th>色值</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>--color-primary</code></td><td>#F5A623</td><td>导航栏、主按钮、选中状态、图标强调</td></tr>
+        <tr><td><code>--color-primary-light</code></td><td>#FCE4B8</td><td>标签背景、浅色区块、日历今天标记</td></tr>
+        <tr><td><code>--color-primary-dark</code></td><td>#D4891A</td><td>文字强调、按钮按下态</td></tr>
+        <tr><td><code>--color-bg</code></td><td>#FFFAF0</td><td>页面主背景</td></tr>
+        <tr><td><code>--color-text</code></td><td>#4A3728</td><td>正文文字</td></tr>
+        <tr><td><code>--color-text-secondary</code></td><td>#8B7355</td><td>辅助说明文字、时间文字</td></tr>
+        <tr><td><code>--color-white</code></td><td>#FFFFFF</td><td>卡片背景、弹窗背景</td></tr>
+        <tr><td><code>--color-divider</code></td><td>#F0E6D3</td><td>分割线</td></tr>
+        <tr><td><code>--color-danger</code></td><td>#E0745C</td><td>删除按钮</td></tr>
+      </tbody>
+    </table>
+
+    <h3>字体规范</h3>
+    <table>
+      <thead><tr><th>层级</th><th>大小</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>页面标题</td><td>34rpx（约17px）</td><td>页面主标题</td></tr>
+        <tr><td>正文</td><td>30rpx（约15px）</td><td>记录文字内容</td></tr>
+        <tr><td>辅助文字</td><td>26-28rpx（约13-14px）</td><td>标签、按钮文字</td></tr>
+        <tr><td>时间/次要信息</td><td>24rpx（约12px）</td><td>时间戳、位置文字</td></tr>
+      </tbody>
+    </table>
+    <p>字体族：系统默认字体（iOS: PingFang SC / Android: 系统字体）</p>
+
+    <h3>组件风格</h3>
+    <table>
+      <thead><tr><th>组件</th><th>风格</th></tr></thead>
+      <tbody>
+        <tr><td>按钮</td><td>圆角 16rpx，主按钮填充色，次按钮描边</td></tr>
+        <tr><td>卡片</td><td>白色背景，圆角 20rpx，浅阴影，间距 20rpx/30rpx</td></tr>
+        <tr><td>标签</td><td>浅黄底色，圆角 20rpx，深色文字</td></tr>
+        <tr><td>悬浮按钮</td><td>圆形，100rpx，主色填充，右下角固定</td></tr>
+        <tr><td>输入框</td><td>无边框，底部细线，浅色占位文字</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 第5章：数据说明 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">5</span> 数据说明</h2>
+
+    <h3>记录数据结构</h3>
+    <p>每条生活记录包含以下信息：</p>
+    <table>
+      <thead><tr><th>字段名</th><th>类型</th><th>说明</th><th>示例</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>字符串</td><td>唯一标识，自动生成</td><td>"lxyz-abc123"</td></tr>
+        <tr><td><code>content</code></td><td>字符串</td><td>文字内容（最多2000字）</td><td>"今天天气真好..."</td></tr>
+        <tr><td><code>images</code></td><td>数组</td><td>图片文件路径列表（最多9张）</td><td>["/user/.../img1.jpg"]</td></tr>
+        <tr><td><code>videos</code></td><td>数组</td><td>视频信息列表（最多3个），每个含文件路径、缩略图、时长</td><td>[{filePath, thumbPath, duration}]</td></tr>
+        <tr><td><code>mood</code></td><td>字符串</td><td>心情标签（预设或自定义）</td><td>"开心" 或 "元气满满"</td></tr>
+        <tr><td><code>location</code></td><td>对象</td><td>地理位置（名称、经纬度），可为空</td><td>{name:"北京市", lat:39.9, lon:116.4}</td></tr>
+        <tr><td><code>createdAt</code></td><td>字符串</td><td>创建时间，精确到秒</td><td>"2026-06-17 15:30:45"</td></tr>
+      </tbody>
+    </table>
+
+    <h3>存储方式</h3>
+    <div class="tip">
+      <span class="tip-label">📱 本地存储：</span> 所有记录保存在手机本地（微信小程序存储空间）。不依赖任何服务器，离线也能正常使用。图片和视频文件保存在用户文件目录中，不会因小程序关闭而丢失。
+    </div>
+    <p>记录以数组形式存储，按创建时间排序。每次打开小程序自动读取，新增或删除记录后实时更新。</p>
+  </div>
+
+  <!-- ===== 第6章：技术说明 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">6</span> 技术说明</h2>
+
+    <h3>技术架构（通俗版）</h3>
+    <table>
+      <thead><tr><th>方面</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>开发框架</td><td>微信小程序原生框架（WXML + WXSS + JavaScript）—— 不依赖第三方库，轻量高效</td></tr>
+        <tr><td>是否需要服务器</td><td><strong>不需要</strong> —— 数据全部存储在手机本地</td></tr>
+        <tr><td>是否需要联网</td><td>基本使用不需要。仅获取地理位置时需要网络（调用微信地图）</td></tr>
+        <tr><td>数据安全</td><td>数据仅在用户手机中，不会上传到任何服务器</td></tr>
+        <tr><td>兼容性</td><td>支持微信 7.0 以上版本，iOS 和 Android 均可使用</td></tr>
+        <tr><td>代码量</td><td>约 1000 行代码，结构清晰，易于维护</td></tr>
+      </tbody>
+    </table>
+
+    <h3>通俗解释</h3>
+    <div class="tip">
+      <span class="tip-label">🔒 隐私安全：</span> 你的所有记录（文字、图片、视频）都只保存在你自己的手机里，不会上传到任何云端服务器。就像手机自带的备忘录一样私密。
+    </div>
+    <div class="tip">
+      <span class="tip-label">⚡ 离线可用：</span> 即使手机没有网络，也可以正常打开小程序、查看记录、创建新记录。只有使用「地点定位」功能时需要短暂联网。
+    </div>
+  </div>
+
+  <!-- ===== 第7章：文件目录 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">7</span> 文件目录</h2>
+
+    <table>
+      <thead><tr><th>文件路径</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>app.js</code></td><td>小程序入口文件，负责全局数据读写（保存/读取/删除记录）</td></tr>
+        <tr><td><code>app.json</code></td><td>全局配置文件，定义页面路由、导航栏样式</td></tr>
+        <tr><td><code>app.wxss</code></td><td>全局样式文件，定义颜色变量、通用组件样式（按钮/卡片/标签等）</td></tr>
+        <tr><td><code>project.config.json</code></td><td>微信开发者工具项目配置（需替换 AppID）</td></tr>
+        <tr><td><code>sitemap.json</code></td><td>小程序页面收录配置</td></tr>
+        <tr><td><code>utils/util.js</code></td><td>工具函数库：时间格式化、ID 生成、日历数据生成、心情预设列表</td></tr>
+        <tr><td><code>pages/index/index.js</code></td><td>首页逻辑：视图切换、筛选、日历导航、列表渲染</td></tr>
+        <tr><td><code>pages/index/index.wxml</code></td><td>首页界面：视图切换栏、筛选面板、时间线列表、日历网格、悬浮按钮</td></tr>
+        <tr><td><code>pages/index/index.wxss</code></td><td>首页样式：卡片、日历、筛选面板样式</td></tr>
+        <tr><td><code>pages/index/index.json</code></td><td>首页配置：导航栏标题</td></tr>
+        <tr><td><code>pages/create/create.js</code></td><td>创建页逻辑：文字输入、图片/视频上传、心情选择、位置获取、数据保存</td></tr>
+        <tr><td><code>pages/create/create.wxml</code></td><td>创建页界面：文字输入框、媒体上传区、心情选择器、位置选择、提交按钮</td></tr>
+        <tr><td><code>pages/create/create.wxss</code></td><td>创建页样式：上传网格、心情标签、提交按钮样式</td></tr>
+        <tr><td><code>pages/create/create.json</code></td><td>创建页配置：导航栏标题</td></tr>
+        <tr><td><code>pages/detail/detail.js</code></td><td>详情页逻辑：数据加载、图片预览、视频播放、删除操作</td></tr>
+        <tr><td><code>pages/detail/detail.wxml</code></td><td>详情页界面：时间戳、完整内容、图片画廊、视频播放器、元信息、删除按钮</td></tr>
+        <tr><td><code>pages/detail/detail.wxss</code></td><td>详情页样式：内容排版、图片画廊、视频区域、删除按钮样式</td></tr>
+        <tr><td><code>pages/detail/detail.json</code></td><td>详情页配置：导航栏标题</td></tr>
+        <tr><td><code>images/</code></td><td>预留图标目录</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:16px;">总计 <strong>19 个文件</strong>，代码总量约 1000 行。</p>
+  </div>
+
+  <!-- ===== 第8章：快速开始指南 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">8</span> 快速开始指南</h2>
+
+    <h3>第 1 步：注册微信小程序账号</h3>
+    <ol>
+      <li>访问微信公众平台：<a href="https://mp.weixin.qq.com" target="_blank">https://mp.weixin.qq.com</a></li>
+      <li>点击右上角「立即注册」</li>
+      <li>选择「小程序」类型</li>
+      <li>填写邮箱、密码等基本信息（<strong>个人类型</strong>即可，无需企业资质）</li>
+      <li>激活邮箱后，填写个人信息（需微信扫码验证身份）</li>
+      <li>注册成功后，在「开发 → 开发管理 → 开发设置」中找到 <strong>AppID</strong></li>
+    </ol>
+
+    <h3>第 2 步：下载微信开发者工具</h3>
+    <ol>
+      <li>访问：<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html" target="_blank">微信开发者工具下载</a></li>
+      <li>下载对应系统的版本（Windows / Mac）</li>
+      <li>安装完成后打开，使用微信扫码登录</li>
+    </ol>
+
+    <h3>第 3 步：导入项目</h3>
+    <ol>
+      <li>打开微信开发者工具，点击「导入项目」或「+」</li>
+      <li>项目目录选择：<code>d:\Star Flash</code></li>
+      <li>AppID 填写你在第 1 步获取的 AppID</li>
+      <li>项目名称填写：「星闪」</li>
+      <li>点击「导入」</li>
+    </ol>
+
+    <h3>第 4 步：替换 AppID</h3>
+    <ol>
+      <li>在开发者工具中打开 <code>project.config.json</code> 文件</li>
+      <li>找到 <code>"appid": "请替换为你的AppID"</code></li>
+      <li>替换为你的真实 AppID</li>
+      <li>保存文件</li>
+    </ol>
+
+    <h3>第 5 步：预览运行</h3>
+    <ol>
+      <li>在开发者工具中点击顶部「编译」按钮，查看模拟器效果</li>
+      <li>点击「预览」按钮，生成二维码</li>
+      <li>用微信扫描二维码，在真机上体验</li>
+    </ol>
+
+    <h3>后续：提交审核上线</h3>
+    <p>开发和测试完成后，可在开发者工具中点击「上传」，然后在微信公众平台提交审核。审核通过后，其他用户就能在微信中搜索到你的小程序。</p>
+  </div>
+
+  <!-- ===== 第9章：使用指南 ===== -->
+  <div class="chapter">
+    <h2><span class="ch-num">9</span> 使用指南</h2>
+
+    <h3>📝 如何创建一条记录？</h3>
+    <ol>
+      <li>打开「星闪」小程序，进入首页</li>
+      <li>点击右下角的 <strong>黄色加号按钮（+）</strong></li>
+      <li>进入创建页面后：</li>
+      <ul>
+        <li>在文本框中<strong>输入文字</strong>（可选，最多 2000 字）</li>
+        <li>点击「+ 图片」<strong>添加图片</strong>（可选，最多 9 张，可从相册选或拍照）</li>
+        <li>点击「+ 视频」<strong>添加视频</strong>（可选，最多 3 个，每个最长 60 秒）</li>
+        <li>选择一个<strong>心情标签</strong>（可选，5 种预设 + 可自定义）</li>
+        <li>点击位置区域<strong>选择地点</strong>（可选，调用微信地图）</li>
+      </ul>
+      <li>点击底部 <strong>「💫 保存记录」</strong>按钮</li>
+      <li>看到「记录成功」提示后自动返回首页</li>
+    </ol>
+    <div class="tip"><span class="tip-label">⚠️ 注意：</span> 文字、图片、视频至少要填写一项才能保存。</div>
+
+    <h3>📋 如何浏览时间线？</h3>
+    <ol>
+      <li>默认打开即为<strong>时间线模式</strong></li>
+      <li>所有记录按时间<strong>从新到旧</strong>排列</li>
+      <li>每条记录显示：时间戳、文字摘要、图片缩略图、心情标签、地点</li>
+      <li><strong>向下滑动</strong>查看更多历史记录</li>
+      <li>点击任意记录卡片进入<strong>详情页</strong></li>
+    </ol>
+
+    <h3>📅 如何查看日历？</h3>
+    <ol>
+      <li>在首页顶部点击<strong>「日历」</strong>标签切换</li>
+      <li>显示当月日历，日期下方有<strong>黄色圆点</strong>表示当天有记录</li>
+      <li>点击 <strong>◀ ▶</strong> 箭头切换月份</li>
+      <li>点击任意<strong>日期</strong>查看当天的记录列表</li>
+      <li>点击「时间线」标签可切换回列表模式</li>
+    </ol>
+
+    <h3>🔍 如何筛选记录？</h3>
+    <ol>
+      <li>在首页顶部点击<strong>搜索图标（🔍）</strong>展开筛选面板</li>
+      <li><strong>按日期范围：</strong>选择开始日期和/或结束日期</li>
+      <li><strong>按心情：</strong>点击筛选栏中的心情标签（如「😊 开心」）</li>
+      <li>筛选结果<strong>实时更新</strong>在列表中</li>
+      <li>点击「清除筛选」恢复显示全部记录</li>
+      <li>再次点击搜索图标（✕）收起筛选面板</li>
+    </ol>
+
+    <h3>🗑️ 如何删除记录？</h3>
+    <ol>
+      <li>在时间线或详情页点击记录进入<strong>详情页</strong></li>
+      <li>滚动到底部，点击<strong>「🗑️ 删除这条记录」</strong>按钮</li>
+      <li>在弹出的确认框中点击<strong>「确定删除」</strong></li>
+      <li>删除后自动返回首页</li>
+    </ol>
+    <div class="tip"><span class="tip-label">⚠️ 注意：</span> 删除后无法恢复，请谨慎操作。</div>
+  </div>
+
+</div>
+
+<!-- ==================== 页脚 ==================== -->
+<div class="footer">
+  <p>星闪 ✨ 记录生活点滴 · 微信小程序</p>
+  <p style="margin-top:4px;">文档生成于 2026年6月17日</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+/* ========================================
+   星闪 - 首页样式
+   ======================================== */
+
+/* 视图切换栏 */
+.view-switch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  background-color: var(--color-white);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+.switch-tabs {
+  display: flex;
+  background-color: var(--color-primary-light);
+  border-radius: 28rpx;
+  padding: 6rpx;
+}
+
+.switch-tab {
+  padding: 12rpx 40rpx;
+  border-radius: 24rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  transition: all 0.3s;
+}
+
+.switch-tab.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.filter-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+}
+
+.filter-icon {
+  font-size: 32rpx;
+}
+
+/* 筛选面板 */
+.filter-panel {
+  background-color: var(--color-white);
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.filter-row:last-of-type {
+  border-bottom: none;
+}
+
+.filter-label {
+  font-size: 28rpx;
+  color: var(--color-text);
+  flex-shrink: 0;
+  width: 140rpx;
+}
+
+.filter-value {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--color-text);
+  padding: 8rpx 20rpx;
+  background-color: var(--color-bg);
+  border-radius: 12rpx;
+}
+
+.filter-value.placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+.mood-filter-scroll {
+  flex: 1;
+  white-space: nowrap;
+  display: flex;
+}
+
+.mood-filter-chip {
+  display: inline-block;
+  padding: 8rpx 24rpx;
+  margin-right: 16rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.mood-filter-chip.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.filter-actions {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ========================================
+   输入卡片
+   ======================================== */
+
+.input-card {
+  margin-top: 10rpx;
+}
+
+.input-card .section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 16rpx;
+}
+
+.input-card .content-input {
+  width: 100%;
+  min-height: 140rpx;
+  font-size: 30rpx;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* 媒体混合预览网格 */
+.input-card .media-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 20rpx;
+}
+
+.input-card .media-item {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 14rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.input-card .media-thumb {
+  width: 100%;
+  height: 100%;
+}
+
+.input-card .video-item {
+  background-color: var(--color-bg);
+}
+
+.input-card .video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary-light);
+}
+
+.input-card .video-icon {
+  font-size: 44rpx;
+  color: var(--color-primary);
+}
+
+.input-card .video-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-card .media-remove {
+  position: absolute;
+  top: 4rpx;
+  right: 4rpx;
+  width: 38rpx;
+  height: 38rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 唯一的上传按钮 */
+.media-upload-btn {
+  margin-top: 20rpx;
+  padding: 22rpx 0;
+  border-radius: 16rpx;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-size: 28rpx;
+  text-align: center;
+  font-weight: 500;
+  border: 2rpx dashed var(--color-primary);
+}
+
+.media-upload-btn:active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* 输入卡片底部 */
+.input-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.input-card-footer .char-count {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.publish-btn {
+  padding: 14rpx 40rpx !important;
+  font-size: 28rpx !important;
+  border-radius: 28rpx !important;
+}
+
+.publish-btn[disabled] {
+  opacity: 0.4;
+  background-color: #CCC !important;
+}
+
+/* ========================================
+   心情卡片
+   ======================================== */
+
+.mood-card {
+  margin-top: 10rpx;
+}
+
+.mood-card .section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 18rpx;
+}
+
+.mood-card .mood-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-bottom: 20rpx;
+}
+
+.mood-card .mood-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14rpx 26rpx;
+  border-radius: 14rpx;
+  background-color: var(--color-bg);
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.mood-card .mood-item.active {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.mood-card .mood-emoji {
+  font-size: 40rpx;
+  margin-bottom: 4rpx;
+}
+
+.mood-card .mood-text {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.mood-card .custom-mood {
+  display: flex;
+  align-items: center;
+}
+
+.mood-card .custom-mood-label {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.mood-card .custom-mood-input {
+  flex: 1;
+  margin-left: 14rpx;
+  padding: 10rpx 18rpx;
+  font-size: 26rpx;
+  border-bottom: 2rpx solid var(--color-divider);
+  color: var(--color-text);
+}
+
+/* ========================================
+   记录卡片
+   ======================================== */
+.record-card {
+  transition: transform 0.15s;
+}
+
+.record-card:active {
+  transform: scale(0.98);
+}
+
+.card-time {
+  margin-bottom: 12rpx;
+}
+
+.card-content {
+  margin-bottom: 16rpx;
+}
+
+.content-text {
+  font-size: 30rpx;
+  line-height: 1.7;
+  color: var(--color-text);
+  word-break: break-all;
+}
+
+.card-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-bottom: 16rpx;
+}
+
+.card-image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  background-color: var(--color-bg);
+}
+
+.card-video-tag {
+  margin-bottom: 12rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.location-text {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   日历视图
+   ======================================== */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 40rpx 20rpx;
+  background-color: var(--color-white);
+}
+
+.month-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.month-arrow {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: var(--color-primary);
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+}
+
+.weekday-row {
+  display: flex;
+  padding: 10rpx 20rpx;
+  background-color: var(--color-white);
+}
+
+.weekday-item {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  padding: 10rpx 0;
+}
+
+.calendar-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx;
+  background-color: var(--color-white);
+}
+
+.calendar-cell {
+  width: calc(100% / 7);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.calendar-cell.other-month .day-number {
+  color: #DDD;
+}
+
+.day-number {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: var(--color-text);
+  border-radius: 50%;
+  position: relative;
+}
+
+.day-number.today {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.day-number.has-record {
+  font-weight: 500;
+}
+
+.day-number.selected {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.record-dot {
+  font-size: 12rpx;
+  color: var(--color-primary);
+  margin-top: 2rpx;
+}
+
+/* 当日记录 */
+.day-records {
+  background-color: var(--color-bg);
+  padding: 20rpx 0 40rpx;
+}
+
+.day-records-title {
+  padding: 20rpx 30rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.day-empty {
+  padding: 40rpx;
+  text-align: center;
+}

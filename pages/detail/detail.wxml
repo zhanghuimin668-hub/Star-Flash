@@ -1,0 +1,81 @@
+<!--
+  星闪 - 记录详情页
+-->
+<view class="page-container" wx:if="{{record}}">
+  <!-- 时间戳 -->
+  <view class="detail-header card">
+    <view class="detail-time">
+      <text class="time-main">{{record.createdAt}}</text>
+    </view>
+  </view>
+
+  <!-- 文字内容 -->
+  <view class="detail-content card" wx:if="{{record.content}}">
+    <text class="content-text">{{record.content}}</text>
+  </view>
+
+  <!-- 图片展示 -->
+  <view class="detail-images card" wx:if="{{record.images && record.images.length > 0}}">
+    <view class="detail-section-title">🖼️ 图片 ({{record.images.length}}张)</view>
+    <view class="images-gallery">
+      <image
+        wx:for="{{record.images}}"
+        wx:key="index"
+        src="{{item}}"
+        mode="aspectFill"
+        class="gallery-image"
+        bindtap="previewImage"
+        data-index="{{index}}"
+        data-urls="{{record.images}}"
+      />
+    </view>
+  </view>
+
+  <!-- 视频展示 -->
+  <view class="detail-videos card" wx:if="{{record.videos && record.videos.length > 0}}">
+    <view class="detail-section-title">🎬 视频 ({{record.videos.length}}个)</view>
+    <view
+      wx:for="{{record.videos}}"
+      wx:key="index"
+      class="video-display"
+    >
+      <video
+        class="video-player"
+        src="{{item.filePath}}"
+        poster="{{item.thumbPath}}"
+        controls
+        object-fit="contain"
+        show-center-play-btn
+      />
+    </view>
+  </view>
+
+  <!-- 心情标签 -->
+  <view class="detail-meta card" wx:if="{{record.mood}}">
+    <view class="meta-row">
+      <text class="meta-label">😊 心情</text>
+      <text class="meta-value tag">{{record.mood}}</text>
+    </view>
+  </view>
+
+  <!-- 地点信息 -->
+  <view class="detail-meta card" wx:if="{{record.location && record.location.name}}">
+    <view class="meta-row">
+      <text class="meta-label">📍 位置</text>
+      <text class="meta-value">{{record.location.name}}</text>
+    </view>
+  </view>
+
+  <!-- 删除按钮 -->
+  <view class="detail-actions">
+    <button class="btn-danger delete-btn" bindtap="onDelete">
+      🗑️ 删除这条记录
+    </button>
+  </view>
+</view>
+
+<!-- 记录不存在 -->
+<view class="empty-state" wx:if="{{!record}}">
+  <text class="empty-icon">😕</text>
+  <text class="empty-text">记录不存在或已被删除</text>
+</view>

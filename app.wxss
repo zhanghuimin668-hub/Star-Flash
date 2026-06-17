@@ -1,0 +1,139 @@
+/* ========================================
+   星闪 - 全局样式
+   温暖黄色系主题
+   ======================================== */
+
+/* 颜色变量（通过类名使用） */
+page {
+  --color-primary: #F5A623;
+  --color-primary-light: #FCE4B8;
+  --color-primary-dark: #D4891A;
+  --color-bg: #FFFAF0;
+  --color-text: #4A3728;
+  --color-text-secondary: #8B7355;
+  --color-white: #FFFFFF;
+  --color-divider: #F0E6D3;
+  --color-danger: #E0745C;
+  --color-shadow: rgba(245, 166, 35, 0.15);
+
+  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 16rpx;
+  padding: 20rpx 48rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  text-align: center;
+}
+
+.btn-primary:active {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2rpx solid var(--color-primary);
+  border-radius: 16rpx;
+  padding: 18rpx 48rpx;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 16rpx;
+  padding: 20rpx 48rpx;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: var(--color-white);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin: 20rpx 30rpx;
+  box-shadow: 0 4rpx 20rpx var(--color-shadow);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 60rpx;
+}
+
+.empty-state .empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.6;
+}
+
+.empty-state .empty-text {
+  font-size: 30rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 悬浮加号按钮 */
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 80rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx var(--color-shadow);
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.fab:active {
+  transform: scale(0.92);
+  background-color: var(--color-primary-dark);
+}
+
+.fab .plus-icon {
+  font-size: 52rpx;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+/* 标签/徽章 */
+.tag {
+  display: inline-block;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* 时间文字 */
+.time-text {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 通用页面容器 */
+.page-container {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
